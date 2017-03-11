@@ -16,7 +16,6 @@ namespace UDPNumberClient
         public int LocalPortNumber { get; set; }
         public bool IsListening { get; set; }
 
-
         #region Constructors
         /// <summary>
         /// Creates a UdpListener where Local and EndPoint portnumbers are the same
