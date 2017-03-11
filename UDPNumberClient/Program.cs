@@ -13,25 +13,6 @@ namespace UDPNumberClient
     {
         static void Main(string[] args)
         {
-            //IPAddress ip = IPAddress.Parse("127.0.0.1"); //
-            //UdpClient udpClient = new UdpClient("127.0.0.1", 9999);
-
-            //IPEndPoint remoteIpEndPoint = new IPEndPoint(ip, 9999); //
-
-            ////udpClient.Connect(remoteIpEndPoint);
-
-            //while (true)
-            //{
-
-            //    Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
-            //    string receivedData = Encoding.ASCII.GetString(receiveBytes,0,receiveBytes.Length);
-
-            //    Console.WriteLine(receivedData);
-
-            //    //Thread.Sleep(100);
-
-            //}
-
             bool done = false;
             UdpClient listener = new UdpClient(9999);
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, 9999);
