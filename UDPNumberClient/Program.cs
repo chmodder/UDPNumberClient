@@ -13,23 +13,12 @@ namespace UDPNumberClient
     {
         static void Main(string[] args)
         {
-            IPAddress ip = IPAddress.Parse("127.0.0.1"); //
-            UdpClient udpClient = new UdpClient(9999);
-            IPEndPoint remoteIpEndPoint = new IPEndPoint(ip, 9999); //
+            UDPListener theListener = new UDPListener("127.0.0.1",9999);
+            Task.Factory.StartNew(() => theListener.StartListening());
 
-            while (true)
-            {
-                Console.WriteLine("\nWaiting for broadcast");
+            Thread.Sleep(5000);
 
-                Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
-                string receivedData = Encoding.ASCII.GetString(receiveBytes, 0, receiveBytes.Length);
-                Console.WriteLine($"Received a broadcast from {remoteIpEndPoint}");
-                Console.WriteLine(receivedData);
-
-                Thread.Sleep(100);
-            }
-
-            //udpClient.Close();
+            theListener.StopListening();
         }
     }
 }

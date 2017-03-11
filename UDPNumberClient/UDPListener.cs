@@ -4,49 +4,72 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UDPNumberClient
 {
     public class UDPListener
-
     {
-        ////private const int listenPort = 11000;
+        public IPAddress EndPointIpAddress { get; set; }
+        public int EndPointPortNumber { get; set; }
+        public int LocalPortNumber { get; set; }
+        public bool IsListening { get; set; }
 
-        //public static void Main()
-        //{
-        //    bool done = false;
-        //    UdpClient listener = new UdpClient(9999);
-        //    IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, 9999);
-        //    string received_data;
-        //    byte[] receive_byte_array;
 
-        //    try
-        //    {
-        //        while (!done)
-        //        {
-        //            Console.WriteLine("Waiting for broadcast");
-        //            // this is the line of code that receives the broadcase message.
-        //            // It calls the receive function from the object listener (class UdpClient)
-        //            // It passes to listener the end point groupEP.
-        //            // It puts the data from the broadcast message into the byte array
-        //            // named received_byte_array.
-        //            // I don't know why this uses the class UdpClient and IPEndPoint like this.
-        //            // Contrast this with the talker code. It does not pass by reference.
-        //            // Note that this is a synchronous or blocking call.
-        //            receive_byte_array = listener.Receive(ref groupEP);
-        //            Console.WriteLine("Received a broadcast from {0}", groupEP.ToString());
-        //            received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
-        //            Console.WriteLine("data follows \n{0}\n\n", received_data);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.ToString());
-        //    }
+        #region Constructors
+        /// <summary>
+        /// Creates a UdpListener where Local and EndPoint portnumbers are the same
+        /// </summary>
+        /// <param name="endPointIpAddress"></param>
+        /// <param name="endPointAndLocalPortNumber"></param>
+        public UDPListener(string endPointIpAddress, int endPointAndLocalPortNumber)
+        {
+            //TODO exception handling for parsing - Overload constructor 1
+            EndPointIpAddress = IPAddress.Parse(endPointIpAddress);
+            EndPointPortNumber = endPointAndLocalPortNumber;
+            LocalPortNumber = endPointAndLocalPortNumber;
+        }
 
-        //    listener.Close();
-            
-        //}
+        /// <summary>
+        /// Creates a UdpListener where Local and EndPoint portnumbers are different
+        /// </summary>
+        /// <param name="endPointIpAddress"></param>
+        /// <param name="endPointPortNumber"></param>
+        /// <param name="localPortNumber"></param>
+        public UDPListener(string endPointIpAddress, int endPointPortNumber, int localPortNumber)
+        {
+            //TODO exception handling for parsing - Overload constructor 2
+            EndPointIpAddress = IPAddress.Parse(endPointIpAddress);
+            EndPointPortNumber = endPointPortNumber;
+            LocalPortNumber = localPortNumber;
+        }
+        #endregion
+
+        public void StartListening()
+        {
+            IsListening = true;
+            IPEndPoint remoteIpEndPoint = new IPEndPoint(EndPointIpAddress, EndPointPortNumber);
+            UdpClient udpClient = new UdpClient(9999);
+
+            while (IsListening)
+            {
+                Console.WriteLine("\nWaiting for broadcast");
+
+                Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
+                string receivedData = Encoding.ASCII.GetString(receiveBytes, 0, receiveBytes.Length);
+                Console.WriteLine($"Received a broadcast from {remoteIpEndPoint}");
+                Console.WriteLine(receivedData);
+
+                Thread.Sleep(100);
+            }
+
+            udpClient.Close();
+        }
+
+        public void StopListening()
+        {
+            IsListening = false;
+        }
     }
 }
