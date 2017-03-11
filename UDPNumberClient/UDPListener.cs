@@ -53,12 +53,12 @@ namespace UDPNumberClient
 
             while (IsListening)
             {
-                Console.WriteLine("\nWaiting for broadcast");
+                Console.WriteLine("Waiting for broadcast...");
 
                 Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
                 string receivedData = Encoding.ASCII.GetString(receiveBytes, 0, receiveBytes.Length);
                 Console.WriteLine($"Received a broadcast from {remoteIpEndPoint}");
-                Console.WriteLine(receivedData);
+                Console.WriteLine($"Message: {receivedData}\n");
 
                 Thread.Sleep(100);
             }

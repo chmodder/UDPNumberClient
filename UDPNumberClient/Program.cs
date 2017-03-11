@@ -21,7 +21,7 @@ namespace UDPNumberClient
 
             //Sets the amount of time for the listener to listen before invkong the StopListening method
             //this is to prevent that the program ends before receiving anything
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
 
             //Stops the listener
             theListener.StopListening();
