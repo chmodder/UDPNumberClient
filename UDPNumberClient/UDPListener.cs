@@ -11,44 +11,35 @@ namespace UDPNumberClient
 {
     public class UDPListener
     {
-        public IPAddress EndPointIpAddress { get; set; }
-        public int EndPointPortNumber { get; set; }
+        public IPAddress RemoteEPIpAddress { get; set; }
+        public int RemoteEPPortNumber { get; set; }
         public int LocalPortNumber { get; set; }
         public bool IsListening { get; set; }
 
         #region Constructors
+
         /// <summary>
         /// Creates a UdpListener where Local and EndPoint portnumbers are the same
+        /// Uses Any IP
         /// </summary>
-        /// <param name="endPointIpAddress"></param>
-        /// <param name="endPointAndLocalPortNumber"></param>
-        public UDPListener(string endPointIpAddress, int endPointAndLocalPortNumber)
+        /// <param name="remoteEpAndLocalPortNumber"></param>
+        public UDPListener(int remoteEpAndLocalPortNumber)
         {
             //TODO exception handling for parsing - Overload constructor 1
-            EndPointIpAddress = IPAddress.Parse(endPointIpAddress);
-            EndPointPortNumber = endPointAndLocalPortNumber;
-            LocalPortNumber = endPointAndLocalPortNumber;
+            RemoteEPIpAddress = IPAddress.Any;
+            RemoteEPPortNumber = remoteEpAndLocalPortNumber;
+            LocalPortNumber = remoteEpAndLocalPortNumber;
         }
 
-        /// <summary>
-        /// Creates a UdpListener where Local and EndPoint portnumbers are different
-        /// </summary>
-        /// <param name="endPointIpAddress"></param>
-        /// <param name="endPointPortNumber"></param>
-        /// <param name="localPortNumber"></param>
-        public UDPListener(string endPointIpAddress, int endPointPortNumber, int localPortNumber)
-        {
-            //TODO exception handling for parsing - Overload constructor 2
-            EndPointIpAddress = IPAddress.Parse(endPointIpAddress);
-            EndPointPortNumber = endPointPortNumber;
-            LocalPortNumber = localPortNumber;
-        }
         #endregion
 
+        /// <summary>
+        /// Starts listening on the IP and port selected in the constructor
+        /// </summary>
         public void StartListening()
         {
             IsListening = true;
-            IPEndPoint remoteIpEndPoint = new IPEndPoint(EndPointIpAddress, EndPointPortNumber);
+            IPEndPoint remoteIpEndPoint = new IPEndPoint(RemoteEPIpAddress, RemoteEPPortNumber);
             UdpClient udpClient = new UdpClient(9999);
 
             while (IsListening)
@@ -66,6 +57,9 @@ namespace UDPNumberClient
             udpClient.Close();
         }
 
+        /// <summary>
+        /// Stops the listening
+        /// </summary>
         public void StopListening()
         {
             IsListening = false;
