@@ -25,7 +25,6 @@ namespace UDPNumberClient
         /// <param name="remoteEpAndLocalPortNumber"></param>
         public UDPListener(int remoteEpAndLocalPortNumber)
         {
-            //TODO exception handling for parsing - Overload constructor 1
             RemoteEPIpAddress = IPAddress.Any;
             RemoteEPPortNumber = remoteEpAndLocalPortNumber;
             LocalPortNumber = remoteEpAndLocalPortNumber;
