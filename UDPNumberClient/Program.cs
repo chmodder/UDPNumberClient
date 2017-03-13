@@ -13,7 +13,6 @@ namespace UDPNumberClient
     {
         static void Main(string[] args)
         {
-            //UDPListener theListener = new UDPListener("127.0.0.1",9999);
             UDPListener theListener = new UDPListener(9999);
 
             theListener.StartListening();
