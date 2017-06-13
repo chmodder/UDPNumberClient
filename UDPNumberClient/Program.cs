@@ -17,7 +17,7 @@ namespace UDPNumberClient
 
             theListener.StartListening();
 
-
+            #region Automatic stop after specific amount of time
             ////Starts the listener in a new thread to be able to stop it. 
             ////Else the program will stay in an endless loop inside the StartListening() method
             //Task.Factory.StartNew(() => theListener.StartListening());
@@ -27,7 +27,8 @@ namespace UDPNumberClient
             //Thread.Sleep(5000);
 
             //////Stops the listener
-            ////theListener.StopListening();
+            //theListener.StopListening();
+            #endregion
         }
     }
 }
