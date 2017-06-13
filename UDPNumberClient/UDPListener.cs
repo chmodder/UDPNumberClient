@@ -13,7 +13,6 @@ namespace UDPNumberClient
     {
         public IPAddress RemoteEPIpAddress { get; set; }
         public int RemoteEPPortNumber { get; set; }
-        public int LocalPortNumber { get; set; }
         public bool IsListening { get; set; }
 
         #region Constructors
@@ -27,7 +26,6 @@ namespace UDPNumberClient
         {
             RemoteEPIpAddress = IPAddress.Any;
             RemoteEPPortNumber = remoteEpAndLocalPortNumber;
-            LocalPortNumber = remoteEpAndLocalPortNumber;
         }
 
         #endregion
